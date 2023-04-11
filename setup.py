@@ -17,7 +17,6 @@ setup(
     classifiers=[
         # Choose appropriate classifiers from
         # https://pypi.org/classifiers/
-        
-        Development Status :: 4 - Beta
+        "Development Status :: 4 - Beta"
     ],
 )
