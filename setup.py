@@ -1,8 +1,10 @@
 from setuptools import setup, find_packages
 
+VERSION = "0.0.3"
+
 setup(
     name="qnabot",
-    version="0.0.1",
+    version=VERSION,
     packages=find_packages(),
     install_requires=[
         # List your package's dependencies here, e.g.,

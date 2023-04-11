@@ -4,3 +4,4 @@ __pycache__
 qnabot.egg-info
 dist
 build
+**.pickle
