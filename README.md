@@ -12,7 +12,7 @@ import os
 
 os.environ["OPENAI_API_KEY"] = "my key"
 
-# Create a bot
+# Create a bot 👉 with one line of code
 bot = QnABot(directory="./mydata")
 
 # Ask a question
@@ -28,6 +28,7 @@ bot = QnABot(directory="./mydata", index="index.pickle")
 ### Future plans
 
 - [ ] Add support for other models
+- [ ] Add support for different prompts
 - [ ] Add support for other data sources
 - [ ] Add support for other vector databases
 - [ ] One line API expose
@@ -35,7 +36,11 @@ bot = QnABot(directory="./mydata", index="index.pickle")
 
 ### Here's how it works
 
-High level overview what is happening under the hood:
+Large language models (LLMs) are powerful, but they can't answer questions about documents they haven't seen. If you want to use an LLM to answer questions about documents it was not trained on, you have to give it information about those documents. To solve this, we use "retrieval augmented generation."
+
+In simple terms, when you have a question, you first search for relevant documents. Then, you give the documents and the question to the language model to generate an answer. To make this work, you need your documents in a searchable format (an index). This process involves two main steps: (1) preparing your documents for easy querying, and (2) using the retrieval augmented generation method.
+
+`QnABot` uses FAISS to create an index of documents and GPT to generate answers.
 
 ```mermaid
 sequenceDiagram
