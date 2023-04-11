@@ -2,6 +2,10 @@
 
 Create a question answering over docs bot with one line of code:
 
+```bash
+pip install qnabot
+```
+
 ```python
 from qnabot import QnABot
 import os
