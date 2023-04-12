@@ -25,13 +25,16 @@ bot.save_index("index.pickle")
 bot = QnABot(directory="./mydata", index="index.pickle")
 ```
 
-### Future plans
+### Features
 
-- [ ] Add support for other models
-- [ ] Add support for different prompts
-- [ ] Add support for other data sources
-- [ ] Add support for other vector databases
-- [ ] One line API expose
+- [x] Create a question answering bot over your documents with one line of code using GPT
+- [x] Save / load index to reduce costs (Open AI embedings are used to create the index)
+- [x] Local data source (directory of documents) or S3 data source
+- [x] FAISS for storing vectors / index
+- [ ] Customise prompt
+- [ ] Expose API
+- [ ] Support for LLaMA model
+- [ ] Support for Anthropic models
 - [ ] CLI / UI
 
 ### Here's how it works
