@@ -31,6 +31,7 @@ bot = QnABot(directory="./mydata", index="index.pickle")
 - [x] Save / load index to reduce costs (Open AI embedings are used to create the index)
 - [x] Local data source (directory of documents) or S3 data source
 - [x] FAISS for storing vectors / index
+- [ ] Support for other vector databases (e.g. Weaviate, Pinecone)
 - [ ] Customise prompt
 - [ ] Expose API
 - [ ] Support for LLaMA model

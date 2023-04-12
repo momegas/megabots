@@ -5,3 +5,4 @@ qnabot.egg-info
 dist
 build
 **.pickle
+.env

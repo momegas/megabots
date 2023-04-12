@@ -73,7 +73,7 @@ class QnABot:
             )["output_text"]
         )
 
-    def get_answer(self, question, k=1):
+    def get_answer(self, question, k=1) -> str:
         # Retrieve the answer to the given question and return it
         input_documents = self.search_index.similarity_search(question, k=k)
         return self.chain(
