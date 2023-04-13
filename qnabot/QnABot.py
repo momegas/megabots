@@ -1,4 +1,3 @@
-# Import necessary libraries and modules
 from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
@@ -7,6 +6,7 @@ from langchain.chains.qa_with_sources import load_qa_with_sources_chain
 from langchain.vectorstores.faiss import FAISS
 import pickle
 import os
+from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 
 
 class QnABot:
@@ -15,7 +15,8 @@ class QnABot:
         directory: str,
         index: str | None = None,
         model: str | None = None,
-        temperature=0,
+        verbose: bool = False,
+        temperature: int = 0,
     ):
         # Initialize the QnABot by selecting a model, creating a loader,
         # and loading or creating an index
@@ -24,7 +25,7 @@ class QnABot:
         self.load_or_create_index(index)
 
         # Load the question-answering chain for the selected model
-        self.chain = load_qa_with_sources_chain(self.llm)
+        self.chain = load_qa_with_sources_chain(self.llm, verbose=verbose)
 
     def select_model(self, model: str | None, temperature: float):
         # Select and set the appropriate model based on the provided input
@@ -60,26 +61,14 @@ class QnABot:
         with open(index_path, "wb") as f:
             pickle.dump(self.search_index, f)
 
-    def print_answer(self, question, k=1):
+    def print_answer(self, question: str, k=1):
         # Retrieve and print the answer to the given question
         input_documents = self.search_index.similarity_search(question, k=k)
-        print(
-            self.chain(
-                {
-                    "input_documents": input_documents,
-                    "question": question,
-                },
-                return_only_outputs=True,
-            )["output_text"]
-        )
+        a = self.chain.run(input_documents=input_documents, question=question)
+        print(a)
 
-    def get_answer(self, question, k=1) -> str:
+    def get_answer(self, question: str, k=1) -> str:
         # Retrieve the answer to the given question and return it
         input_documents = self.search_index.similarity_search(question, k=k)
-        return self.chain(
-            {
-                "input_documents": input_documents,
-                "question": question,
-            },
-            return_only_outputs=True,
-        )["output_text"]
+        answer = self.chain.run(input_documents=input_documents, question=question)
+        return answer
