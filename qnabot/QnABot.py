@@ -6,7 +6,6 @@ from langchain.chains.qa_with_sources import load_qa_with_sources_chain
 from langchain.vectorstores.faiss import FAISS
 import pickle
 import os
-from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 
 
 class QnABot:

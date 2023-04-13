@@ -27,15 +27,23 @@ bot.save_index("index.pickle")
 bot = QnABot(directory="./mydata", index="index.pickle")
 ```
 
+You can also create a FastAPI app that will expose the bot as an API. You should then be able to visit `http://localhost:8000/docs` to see the API documentation.
+
+```python
+from qnabot import QnABot, create_app
+
+app = create_app(QnABot("./examples/files"))
+```
+
 ### Features
 
 - [x] Create a question answering bot over your documents with one line of code using GPT
 - [x] Save / load index to reduce costs (Open AI embedings are used to create the index)
 - [x] Local data source (directory of documents) or S3 data source
 - [x] FAISS for storing vectors / index
+- [x] Expose bot over API using FastAPI
 - [ ] Support for other vector databases (e.g. Weaviate, Pinecone)
 - [ ] Customise prompt
-- [ ] Expose API
 - [ ] Support for LLaMA model
 - [ ] Support for Anthropic models
 - [ ] CLI / UI
