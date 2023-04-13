@@ -1,5 +1,7 @@
 # QnA Bot
 
+[![Tests](https://github.com/momegas/qnabot/actions/workflows/python-package.yml/badge.svg)](https://github.com/momegas/qnabot/actions/workflows/python-package.yml)
+
 Create a question answering over docs bot with one line of code:
 
 ```bash
