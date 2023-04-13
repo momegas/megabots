@@ -27,12 +27,14 @@ bot.save_index("index.pickle")
 bot = QnABot(directory="./mydata", index="index.pickle")
 ```
 
-You can also create a FastAPI app that will expose the bot as an API. You should then be able to visit `http://localhost:8000/docs` to see the API documentation.
+You can also create a FastAPI app that will expose the bot as an API.
+Just run `uvicorn main:app --reload` to run the API locally.
+You should then be able to visit `http://localhost:8000/docs` to see the API documentation.
 
 ```python
 from qnabot import QnABot, create_app
 
-app = create_app(QnABot("./examples/files"))
+app = create_app(QnABot("./mydata"))
 ```
 
 ### Features
