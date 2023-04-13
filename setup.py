@@ -1,14 +1,17 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.0.3"
+VERSION = "0.0.4"
 
 setup(
     name="qnabot",
     version=VERSION,
     packages=find_packages(),
     install_requires=[
-        # List your package's dependencies here, e.g.,
-        # "numpy>=1.18",
+        "langchain",
+        "tiktoken",
+        "unstructured",
+        "fastapi",
+        "faiss-cpu",
     ],
     author="Megaklis Vasilakis",
     author_email="megaklis.vasilakis@gmail.com",
