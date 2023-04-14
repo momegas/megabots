@@ -27,14 +27,24 @@ bot.save_index("index.pickle")
 bot = QnABot(directory="./mydata", index="index.pickle")
 ```
 
-You can also create a FastAPI app that will expose the bot as an API.
-Just run `uvicorn main:app --reload` to run the API locally.
+You can also create a FastAPI app that will expose the bot as an API using the create_app function.
+Assuming you file is called `main.py` run `uvicorn main:app --reload` to run the API locally.
 You should then be able to visit `http://localhost:8000/docs` to see the API documentation.
 
 ```python
 from qnabot import QnABot, create_app
 
 app = create_app(QnABot("./mydata"))
+```
+
+You can expose a gradio UI for the bot using `create_interface` function.
+Assuming your file is called `ui.py` run `gradio qnabot/ui.py` to run the UI locally.
+You should then be able to visit `http://127.0.0.1:7860` to see the API documentation.
+
+```python
+from qnabot import QnABot, create_interface
+
+demo = create_interface(QnABot("./mydata"))
 ```
 
 ### Features
@@ -44,12 +54,12 @@ app = create_app(QnABot("./mydata"))
 - [x] Local data source (directory of documents) or S3 data source
 - [x] FAISS for storing vectors / index
 - [x] Expose bot over API using FastAPI
+- [x] Gradio UI
 - [ ] Integration with [guardrails](https://github.com/ShreyaR/guardrails)
 - [ ] Integration with [GPTCache](https://github.com/zilliztech/GPTCache)
 - [ ] Support for other vector databases (e.g. Weaviate, Pinecone)
 - [ ] Customise prompt
 - [ ] Support for LLaMA model
-- [ ] CLI / UI
 
 ### Here's how it works
 
