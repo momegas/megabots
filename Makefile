@@ -12,7 +12,7 @@ test:
 	$(PYTHON) -m pytest
 
 clean:
-	rm -rf build dist *.egg-info
+	rm -rf build dist *.egg-info .pytest_cache ./**/__pycache__
 
 build:
 	$(PYTHON) setup.py sdist bdist_wheel
