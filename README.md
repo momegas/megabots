@@ -44,10 +44,11 @@ app = create_app(QnABot("./mydata"))
 - [x] Local data source (directory of documents) or S3 data source
 - [x] FAISS for storing vectors / index
 - [x] Expose bot over API using FastAPI
+- [ ] Integration with [guardrails](https://github.com/ShreyaR/guardrails)
+- [ ] Integration with [GPTCache](https://github.com/zilliztech/GPTCache)
 - [ ] Support for other vector databases (e.g. Weaviate, Pinecone)
 - [ ] Customise prompt
 - [ ] Support for LLaMA model
-- [ ] Support for Anthropic models
 - [ ] CLI / UI
 
 ### Here's how it works
