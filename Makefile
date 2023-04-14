@@ -23,6 +23,9 @@ publish: clean build
 trace:
 	langchain-server	
 
+freeze:
+	$(PIP) freeze > requirements.txt
+
 help:
 	@echo "install - install dependencies"
 	@echo "test - run tests"
