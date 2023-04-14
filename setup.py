@@ -12,7 +12,7 @@ setup(
         "unstructured",
         "fastapi",
         "faiss-cpu",
-        "fastapi",
+        "pdfminer.six",
     ],
     author="Megaklis Vasilakis",
     author_email="megaklis.vasilakis@gmail.com",

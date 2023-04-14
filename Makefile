@@ -20,6 +20,9 @@ build:
 publish: clean build
 	$(PYTHON) -m twine upload dist/*
 
+trace:
+	langchain-server	
+
 help:
 	@echo "install - install dependencies"
 	@echo "test - run tests"

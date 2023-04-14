@@ -7,7 +7,7 @@ def create_app(bot: QnABot):
 
     @app.get("/v1/ask/{question}")
     async def ask(question: str):
-        answer = bot.get_answer(question)
+        answer = bot.ask(question)
         return {"answer": answer}
 
     return app

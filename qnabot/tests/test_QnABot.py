@@ -14,9 +14,9 @@ correct_answer = "Iron Man, Thor, Hulk, Ant-Man"
 sources = "SOURCES:"
 
 
-def test_get_answer():
+def test_ask():
     bot = QnABot(directory=test_directory)
-    answer = bot.get_answer(test_question)
+    answer = bot.ask(test_question)
 
     # Assert that the answer contains the correct answer
     assert correct_answer in answer
@@ -41,4 +41,4 @@ def test_save_load_index():
         bot_with_predefined_index = QnABot(directory=test_directory, index=index_path)
 
         # Assert that the bot returns the correct answer to the test question
-        assert correct_answer in bot_with_predefined_index.get_answer(test_question)
+        assert correct_answer in bot_with_predefined_index.ask(test_question)

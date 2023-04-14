@@ -11,7 +11,7 @@ import os
 class QnABot:
     def __init__(
         self,
-        directory: str,
+        directory: str | None = None,
         index: str | None = None,
         model: str | None = None,
         verbose: bool = False,
@@ -36,7 +36,9 @@ class QnABot:
             print("Using model: text-davinci-003")
             self.llm = OpenAI(temperature=temperature)
 
-    def create_loader(self, directory: str):
+    def create_loader(self, directory: str | None):
+        if directory is None:
+            return
         # Create a loader based on the provided directory (either local or S3)
         if directory.startswith("s3://"):
             self.loader = S3DirectoryLoader(directory)
@@ -66,7 +68,7 @@ class QnABot:
         a = self.chain.run(input_documents=input_documents, question=question)
         print(a)
 
-    def get_answer(self, question: str, k=1) -> str:
+    def ask(self, question: str, k=1) -> str:
         # Retrieve the answer to the given question and return it
         input_documents = self.search_index.similarity_search(question, k=k)
         answer = self.chain.run(input_documents=input_documents, question=question)
