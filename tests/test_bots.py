@@ -3,9 +3,7 @@ import tempfile
 from megabots import bot
 import pickle
 from langchain.vectorstores.faiss import FAISS
-from dotenv import load_dotenv
 
-load_dotenv()
 
 # Define test data
 test_directory = "./examples/files"

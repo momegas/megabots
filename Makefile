@@ -9,7 +9,7 @@ install:
 	$(PIP) install -r requirements.txt
 
 test:
-	$(PYTHON) -m pytest
+	$(PYTHON) -m pytest ./tests
 
 clean:
 	rm -rf build dist *.egg-info .pytest_cache ./**/__pycache__
