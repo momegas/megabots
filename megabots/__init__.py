@@ -9,6 +9,12 @@ from fastapi import FastAPI
 import pickle
 import os
 from dotenv import load_dotenv
+from langchain.prompts import PromptTemplate
+from langchain.chains.question_answering import load_qa_chain
+from langchain.chains.conversational_retrieval.prompts import (
+    CONDENSE_QUESTION_PROMPT,
+    QA_PROMPT,
+)
 
 load_dotenv()
 
@@ -17,10 +23,11 @@ class Bot:
     def __init__(
         self,
         model: str | None = None,
-        prompt: str | None = None,
+        prompt_template: str | None = None,
+        prompt_variables: list[str] | None = None,
         memory: str | None = None,
         index: str | None = None,
-        source: str | None = None,
+        sources: bool | None = False,
         verbose: bool = False,
         temperature: int = 0,
     ):
@@ -29,7 +36,24 @@ class Bot:
         self.load_or_create_index(index)
 
         # Load the question-answering chain for the selected model
-        self.chain = load_qa_with_sources_chain(self.llm, verbose=verbose)
+        self.chain = self.create_chain(
+            prompt_template, prompt_variables, verbose=verbose
+        )
+
+    def create_chain(
+        self,
+        prompt_template: str | None = None,
+        prompt_variables: list[str] | None = None,
+        verbose: bool = False,
+    ):
+        prompt = (
+            PromptTemplate(template=prompt_template, input_variables=prompt_variables)
+            if prompt_template is not None and prompt_variables is not None
+            else QA_PROMPT
+        )
+        return load_qa_chain(
+            self.llm, chain_type="stuff", verbose=verbose, prompt=prompt
+        )
 
     def select_model(self, model: str | None, temperature: float):
         # Select and set the appropriate model based on the provided input
@@ -43,6 +67,13 @@ class Bot:
 
     def create_loader(self, index: str | None):
         # Create a loader based on the provided directory (either local or S3)
+        if index is None:
+            raise RuntimeError(
+                """
+            Impossible to find a valid index. 
+            Either provide a valid path to a pickle file or a directory.               
+            """
+            )
         self.loader = DirectoryLoader(index, recursive=True)
 
     def load_or_create_index(self, index_path: str):
@@ -100,10 +131,9 @@ SUPPORTED_MODELS = {}
 def bot(
     task: str | None = None,
     model: str | None = None,
-    prompt: str | None = None,
-    memory: str | None = None,
+    prompt_template: str | None = None,
+    prompt_variables: list[str] | None = None,
     index: str | None = None,
-    source: str | None = None,
     verbose: bool = False,
     temperature: int = 0,
     **kwargs,
@@ -135,6 +165,9 @@ def bot(
     return SUPPORTED_TASKS[task]["impl"](
         model=model or task_defaults["model"],
         index=index or task_defaults["index"],
+        prompt_template=prompt_template,
+        prompt_variables=prompt_variables,
+        temperature=temperature,
         verbose=verbose,
         **kwargs,
     )

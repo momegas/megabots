@@ -19,7 +19,7 @@ def test_ask():
     # Assert that the answer contains the correct answer
     assert correct_answer in answer
     # Assert that the answer contains the sources
-    assert sources in answer
+    assert sources not in answer
 
 
 def test_save_load_index():
