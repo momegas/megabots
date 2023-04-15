@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.0.6"
+VERSION = "0.0.7"
 
 setup(
     name="megabots",
@@ -16,7 +16,7 @@ setup(
     ],
     author="Megaklis Vasilakis",
     author_email="megaklis.vasilakis@gmail.com",
-    description="Create a question answering over docs bot with one line of code.",
+    description="🤖 Megabots provides State-of-the-art, production ready bots made mega-easy, so you don't have to build them from scratch 🤯 Create a bot, now 🫵",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/momegas/megabots",
