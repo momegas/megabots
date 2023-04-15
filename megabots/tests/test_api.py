@@ -1,9 +1,9 @@
 import json
 from fastapi.testclient import TestClient
-from qnabot import QnABot, create_app
+from megabots import bot, create_api
 
-bot = QnABot(directory="./examples/files")
-app = create_app(bot)
+qnabot = bot("qna-over-docs", index="./examples/files")
+app = create_api(qnabot)
 
 client = TestClient(app)
 

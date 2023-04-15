@@ -1,9 +1,9 @@
 import gradio as gr
-from qnabot import create_interface
+from megabots import create_interface
 
 
 def test_create_interface():
-    # create a mock QnABot object
+    # create a mock Bot object
     class MockBot:
         def ask(self, question: str):
             return "Answer"

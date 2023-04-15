@@ -1,34 +1,35 @@
-# 🦾🤖🤳 Mega Bots
+# 🤖 Megabots
 
 [![Tests](https://github.com/momegas/qnabot/actions/workflows/python-package.yml/badge.svg)](https://github.com/momegas/qnabot/actions/workflows/python-package.yml)
 
-Here is an example of what you build with this library: [Demo](https://huggingface.co/spaces/momegas/megas-bot)
+🤖 Megabots provides State-of-the-art, production ready bots made mega-easy, so you don't have to build them from scratch 🤯 Create a bot, now 🫵
 
-🦾🤖🤳 Megabots provides ready made production ready bots so you don't have to build them from scratch 🤯
-
-Note: This is a work in progress. The API is not stable and will change.
+Note: This is a work in progress. The API might change.
 
 ```bash
 pip install megabots
 ```
 
 ```python
-from qnabot import QnABot
+from megabots import bot
 import os
 
 os.environ["OPENAI_API_KEY"] = "my key"
 
-# Create a bot 👉 with one line of code
-bot = QnABot(directory="./mydata")
+# Create a bot 👉 with one line of code. Automatically loads your data from ./index or index.pkl.
+qnabot = bot("qna-over-docs")
 
 # Ask a question
 answer = bot.ask("How do I use this bot?")
 
 # Save the index to save costs (GPT is used to create the index)
-bot.save_index("index.pickle")
+bot.save_index("index.pkl")
 
 # Load the index from a previous run
-bot = QnABot(directory="./mydata", index="index.pickle")
+qnabot = bot("qna-over-docs", index="./index.pkl")
+
+# Or create the index from a directory of documents
+qnabot = bot("qna-over-docs", index="./index")
 ```
 
 You can also create a FastAPI app that will expose the bot as an API using the create_app function.
@@ -36,9 +37,9 @@ Assuming you file is called `main.py` run `uvicorn main:app --reload` to run the
 You should then be able to visit `http://localhost:8000/docs` to see the API documentation.
 
 ```python
-from qnabot import QnABot, create_app
+from megabots import bot, create_api
 
-app = create_app(QnABot("./mydata"))
+app = create_app(bot("qna-over-docs"))
 ```
 
 You can expose a gradio UI for the bot using `create_interface` function.
@@ -46,9 +47,9 @@ Assuming your file is called `ui.py` run `gradio qnabot/ui.py` to run the UI loc
 You should then be able to visit `http://127.0.0.1:7860` to see the API documentation.
 
 ```python
-from qnabot import QnABot, create_interface
+from megabots import bot, create_interface
 
-demo = create_interface(QnABot("./mydata"))
+demo = create_interface(QnABot("qna-over-docs"))
 ```
 
 ### Features

@@ -1,7 +1,7 @@
 # Define variables
 PYTHON=python
 PIP=pip
-PACKAGE=qnabot
+PACKAGE=megabots
 
 .PHONY: install test clean build publish
 

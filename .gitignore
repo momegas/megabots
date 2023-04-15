@@ -1,7 +1,7 @@
 .venv
 __pycache__
 .pytest_cache
-qnabot.egg-info
+**.egg-info
 dist
 build
 **.pickle
