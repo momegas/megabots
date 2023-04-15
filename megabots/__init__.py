@@ -131,9 +131,9 @@ SUPPORTED_MODELS = {}
 def bot(
     task: str | None = None,
     model: str | None = None,
+    index: str | None = None,
     prompt_template: str | None = None,
     prompt_variables: list[str] | None = None,
-    index: str | None = None,
     verbose: bool = False,
     temperature: int = 0,
     **kwargs,
@@ -146,7 +146,10 @@ def bot(
         index (str | None, optional): Data that the model will load and store index info.
         Can be either a local file path, a pickle file, or a url of a vector database.
         By default it will look for a local directory called "files" in the current working directory.
+        prompt_template (str | None, optional): Prompt template to be used. Specify variables with {var_name}.
+        prompt_variables (list[str] | None, optional): Prompt variables to be used in the prompt template.
         verbose (bool, optional): Verbocity. Defaults to False.
+        temperature (int, optional): Temperature. Defaults to 0.
 
     Raises:
         RuntimeError: _description_
