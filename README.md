@@ -1,11 +1,15 @@
-# QnA Bot
+# 🦾🤖🤳 Mega Bots
 
 [![Tests](https://github.com/momegas/qnabot/actions/workflows/python-package.yml/badge.svg)](https://github.com/momegas/qnabot/actions/workflows/python-package.yml)
 
-Create a question answering over docs bot with one line of code:
+Here is an example of what you build with this library: [Demo](https://huggingface.co/spaces/momegas/megas-bot)
+
+🦾🤖🤳 Megabots provides ready made production ready bots so you don't have to build them from scratch 🤯
+
+Note: This is a work in progress. The API is not stable and will change.
 
 ```bash
-pip install qnabot
+pip install megabots
 ```
 
 ```python
