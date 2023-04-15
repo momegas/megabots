@@ -184,15 +184,26 @@ def create_api(bot: Bot):
     return app
 
 
-def create_interface(bot: Bot, examples: list[list[str]] = []):
-    def ask(question: str):
-        return bot.ask(question)
+def create_interface(bot_instance: Bot, examples: list[list[str]] = []):
+    with gr.Blocks() as interface:
+        chatbot = gr.Chatbot([], elem_id="chatbot").style(height=750)
+        msg = gr.Textbox(
+            show_label=False,
+            placeholder="Enter text and press enter, or upload an image",
+        ).style(container=False)
+        clear = gr.Button("Clear")
 
-    interface = gr.Interface(
-        fn=ask,
-        inputs=gr.components.Textbox(lines=5, label="Question"),
-        outputs=gr.components.Textbox(lines=5, label="Answer"),
-        examples=examples,
-    )
+        def user(user_message, history):
+            return "", history + [[user_message, None]]
+
+        def bot(history):
+            response = bot_instance.ask(history[-1][0])
+            history[-1][1] = response
+            return history
+
+        msg.submit(user, [msg, chatbot], [msg, chatbot], queue=False).then(
+            bot, chatbot, chatbot
+        )
+        clear.click(lambda: None, None, chatbot, queue=False)
 
     return interface
