@@ -42,6 +42,14 @@ qnabot = bot("qna-over-docs", index="./index.pkl")
 
 # Or create the index from a directory of documents
 qnabot = bot("qna-over-docs", index="./index")
+
+# Change the model
+qnabot = bot("qna-over-docs", model="text-davinci-003")
+
+# Change the prompt
+prompt_template = "Be humourous in your responses. Question: {question}\nContext: {context}, Answer:"
+prompt_variables=["question", "context"]
+qnabot = bot("qna-over-docs", prompt_template=prompt_template, prompt_variables=prompt_variables)
 ```
 
 You can also create a FastAPI app that will expose the bot as an API using the create_app function.
