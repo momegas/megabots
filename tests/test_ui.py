@@ -15,6 +15,4 @@ def test_create_interface():
     interface = create_interface(MockBot(), examples=example)
 
     # check if the interface has the correct properties
-    assert isinstance(interface, gr.Interface)
-    assert len(interface.examples) == 2
-    assert interface.examples == example
+    assert isinstance(interface, gr.Blocks)
