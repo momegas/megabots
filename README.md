@@ -69,16 +69,28 @@ You should then be able to visit `http://127.0.0.1:7860` to see the API document
 ```python
 from megabots import bot, create_interface
 
-demo = create_interface(QnABot("qna-over-docs"))
+demo = create_interface(bot("qna-over-docs"))
 ```
 
-### Here's how it works
+# Customising bot
+
+The `bot` function should serve as the starting point for creating and customising your bot. Below is a list of the available arguments in `bot`.
+
+| Argument         | Description                                                                                                                                                                                                                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| task             | The type of bot to create. Available options: `qna-over-docs`. More comming soon                                                                                                                                                                                                           |
+| index            | Specifies the index to use for the bot. It can either be a saved index file (e.g., `index.pkl`) or a directory of documents (e.g., `./index`). In the case of the directory the index will be automatically created. If no index is specified `bot` will look for `index.pkl` or `./index` |
+| model            | The name of the model to use for the bot. You can specify a different model by providing its name, like "text-davinci-003". Supported models: `gpt-3.5-turbo` (default),`text-davinci-003` More comming soon.                                                                              |
+| prompt_template  | A string template for the prompt, which defines the format of the question and context passed to the model. The template should include placeholders for the variables specified in `prompt_variables`.                                                                                    |
+| prompt_variables | A list of variables to be used in the prompt template. These variables are replaced with actual values when the bot processes a query.                                                                                                                                                     |
+
+### How QnA bot works
 
 Large language models (LLMs) are powerful, but they can't answer questions about documents they haven't seen. If you want to use an LLM to answer questions about documents it was not trained on, you have to give it information about those documents. To solve this, we use "retrieval augmented generation."
 
 In simple terms, when you have a question, you first search for relevant documents. Then, you give the documents and the question to the language model to generate an answer. To make this work, you need your documents in a searchable format (an index). This process involves two main steps: (1) preparing your documents for easy querying, and (2) using the retrieval augmented generation method.
 
-`QnABot` uses FAISS to create an index of documents and GPT to generate answers.
+`qna-over-docs` uses FAISS to create an index of documents and GPT to generate answers.
 
 ```mermaid
 sequenceDiagram
