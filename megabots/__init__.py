@@ -37,13 +37,14 @@ class Bot:
 
         # Load the question-answering chain for the selected model
         self.chain = self.create_chain(
-            prompt_template, prompt_variables, verbose=verbose
+            prompt_template, prompt_variables, sources=sources, verbose=verbose
         )
 
     def create_chain(
         self,
         prompt_template: str | None = None,
         prompt_variables: list[str] | None = None,
+        sources: bool | None = False,
         verbose: bool = False,
     ):
         prompt = (
@@ -51,6 +52,12 @@ class Bot:
             if prompt_template is not None and prompt_variables is not None
             else QA_PROMPT
         )
+        # TODO: Changing the prompt here is not working. Leave it as is for now.
+        # Reference: https://github.com/hwchase17/langchain/issues/2858
+        if sources:
+            return load_qa_with_sources_chain(
+                self.llm, chain_type="stuff", verbose=verbose
+            )
         return load_qa_chain(
             self.llm, chain_type="stuff", verbose=verbose, prompt=prompt
         )

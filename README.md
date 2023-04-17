@@ -83,6 +83,7 @@ The `bot` function should serve as the starting point for creating and customisi
 | model            | The name of the model to use for the bot. You can specify a different model by providing its name, like "text-davinci-003". Supported models: `gpt-3.5-turbo` (default),`text-davinci-003` More comming soon.                                                                              |
 | prompt_template  | A string template for the prompt, which defines the format of the question and context passed to the model. The template should include placeholders for the variables specified in `prompt_variables`.                                                                                    |
 | prompt_variables | A list of variables to be used in the prompt template. These variables are replaced with actual values when the bot processes a query.                                                                                                                                                     |
+| sources          | When `sources` is `True` the bot will also include sources in the response. A known [issue](https://github.com/hwchase17/langchain/issues/2858) exists, where if you pass a custom prompt with sources the code breaks.                                                                    |
 
 ### How QnA bot works
 
