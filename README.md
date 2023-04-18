@@ -5,20 +5,22 @@
 
 🤖 Megabots provides State-of-the-art, production ready LLM apps made mega-easy, so you don't have to build them from scratch 🤯 Create a bot, now 🫵
 
-👉 Join us on Discord: https://discord.gg/zkqDWk5S7P
-✈️ Work is managed in this project: https://github.com/users/momegas/projects/5/views/2
+- 👉 Join us on Discord: https://discord.gg/zkqDWk5S7P
+- ✈️ Work is managed in this project: https://github.com/users/momegas/projects/5/views/2
 
 The Megabots library can be used to create bots that:
 
-- ⌚️ are production ready bots in minutes
+- ⌚️ are production ready, in minutes
 - 🗂️ can answer questions over documents
-- 🧑‍⚕️ can act personal assistants and use agents and tools (Coming soon)
-- 🗣️ can accept voice (Coming soon)
-- 👍 validate and correct the outputs of large language models (Coming soon)
-- 💰 semanticly cache LLM Queries and reduce your LLM API Costs by 10x (Coming soon)
+- 🧑‍⚕️ can act as personal assistants and use tools (Coming soon)
+- 🗣️ can accept voice as an input (Coming soon)
+- 👍 validate and correct the outputs of large language models using [guardrails](https://github.com/ShreyaR/guardrails) (Coming soon)
+- 💰 semanticly cache LLM Queries and reduce your LLM API Costs by 10x using (Coming soon)
 - 🏋️ are mega-easily to train (Coming soon)
 
 🤖 Megabots is backed by some of the most famous tools for productionalising AI. It uses [LangChain](https://docs.langchain.com/docs/) for managing LLM chains, [FastAPI](https://fastapi.tiangolo.com/) to create a production ready API, [Gradio](https://gradio.app/) to create a UI. At the moment it uses [OpenAI](https://openai.com/) to generate answers, but we plan to support other LLMs in the future.
+
+### Getting started
 
 Note: This is a work in progress. The API might change.
 
@@ -76,7 +78,7 @@ from megabots import bot, create_interface
 demo = create_interface(bot("qna-over-docs"))
 ```
 
-# Customising bot
+### Customising bot
 
 The `bot` function should serve as the starting point for creating and customising your bot. Below is a list of the available arguments in `bot`.
 
