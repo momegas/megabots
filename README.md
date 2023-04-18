@@ -20,7 +20,7 @@ The Megabots library can be used to create bots that:
 
 🤖 Megabots is backed by some of the most famous tools for productionalising AI. It uses [LangChain](https://docs.langchain.com/docs/) for managing LLM chains, [FastAPI](https://fastapi.tiangolo.com/) to create a production ready API, [Gradio](https://gradio.app/) to create a UI. At the moment it uses [OpenAI](https://openai.com/) to generate answers, but we plan to support other LLMs in the future.
 
-### Getting started
+## Getting started
 
 Note: This is a work in progress. The API might change.
 
@@ -78,7 +78,7 @@ from megabots import bot, create_interface
 demo = create_interface(bot("qna-over-docs"))
 ```
 
-### Customising bot
+## Customising bot
 
 The `bot` function should serve as the starting point for creating and customising your bot. Below is a list of the available arguments in `bot`.
 
@@ -91,7 +91,7 @@ The `bot` function should serve as the starting point for creating and customisi
 | prompt_variables | A list of variables to be used in the prompt template. These variables are replaced with actual values when the bot processes a query.                                                                                                                                                     |
 | sources          | When `sources` is `True` the bot will also include sources in the response. A known [issue](https://github.com/hwchase17/langchain/issues/2858) exists, where if you pass a custom prompt with sources the code breaks.                                                                    |
 
-### How QnA bot works
+## How QnA bot works
 
 Large language models (LLMs) are powerful, but they can't answer questions about documents they haven't seen. If you want to use an LLM to answer questions about documents it was not trained on, you have to give it information about those documents. To solve this, we use "retrieval augmented generation."
 
