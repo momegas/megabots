@@ -1,7 +1,7 @@
+from typing import Any
 from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.document_loaders import DirectoryLoader, S3DirectoryLoader
 from langchain.chains.qa_with_sources import load_qa_with_sources_chain
 from langchain.vectorstores.faiss import FAISS
 import gradio as gr
@@ -11,10 +11,9 @@ import os
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
-from langchain.chains.conversational_retrieval.prompts import (
-    CONDENSE_QUESTION_PROMPT,
-    QA_PROMPT,
-)
+from langchain.chains.conversational_retrieval.prompts import QA_PROMPT
+from langchain.document_loaders import DirectoryLoader
+from megabots.vectorstores import vectorstore
 
 load_dotenv()
 
@@ -25,15 +24,17 @@ class Bot:
         model: str | None = None,
         prompt_template: str | None = None,
         prompt_variables: list[str] | None = None,
-        memory: str | None = None,
         index: str | None = None,
         sources: bool | None = False,
+        # TODO: Fix this typing
+        vectorstore: Any | None = None,
+        memory: str | None = None,
         verbose: bool = False,
         temperature: int = 0,
     ):
         self.select_model(model, temperature)
         self.create_loader(index)
-        self.load_or_create_index(index)
+        self.load_or_create_index(index, vectorstore)
 
         # Load the question-answering chain for the selected model
         self.chain = self.create_chain(
@@ -83,18 +84,25 @@ class Bot:
             )
         self.loader = DirectoryLoader(index, recursive=True)
 
-    def load_or_create_index(self, index_path: str):
+    def load_or_create_index(self, index: str, vectorstore=None):
         # Load an existing index from disk or create a new one if not available
+        if vectorstore is not None:
+            self.search_index = vectorstore.client.from_documents(
+                self.loader.load_and_split(),
+                OpenAIEmbeddings(),
+                connection_args={"host": vectorstore.host, "port": vectorstore.port},
+            )
+            return
 
         # Is pickle
-        if index_path is not None and "pkl" in index_path or "pickle" in index_path:
-            print("Loading path from disk...")
-            with open(index_path, "rb") as f:
+        if index is not None and "pkl" in index or "pickle" in index:
+            print("Loading path from pickle file: ", index, "...")
+            with open(index, "rb") as f:
                 self.search_index = pickle.load(f)
             return
 
         # Is directory
-        if index_path is not None and os.path.isdir(index_path):
+        if index is not None and os.path.isdir(index):
             print("Creating index...")
             self.search_index = FAISS.from_documents(
                 self.loader.load_and_split(), OpenAIEmbeddings()
@@ -125,9 +133,8 @@ SUPPORTED_TASKS = {
         "impl": Bot,
         "default": {
             "model": "gpt-3.5-turbo",
-            "prompt": "",
             "temperature": 0,
-            "index": "./files",
+            "index": "./index",
         },
     }
 }

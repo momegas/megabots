@@ -7,3 +7,5 @@ build
 **.pickle
 **.pkl
 .env
+volumes
+docker-compose.yml
