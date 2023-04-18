@@ -8,15 +8,21 @@
 - 👉 Join us on Discord: https://discord.gg/zkqDWk5S7P
 - ✈️ Work is managed in this project: https://github.com/users/momegas/projects/5/views/2
 
-The Megabots library can be used to create bots that:
+**The Megabots library can be used to create bots that:**
 
 - ⌚️ are production ready, in minutes
 - 🗂️ can answer questions over documents
-- 🧑‍⚕️ can act as personal assistants and use tools (Coming soon)
-- 🗣️ can accept voice as an input (Coming soon)
-- 👍 validate and correct the outputs of large language models using [guardrails](https://github.com/ShreyaR/guardrails) (Coming soon)
-- 💰 semanticly cache LLM Queries and reduce your LLM API Costs by 10x using (Coming soon)
-- 🏋️ are mega-easily to train (Coming soon)
+- 💾 can connect to vector databases
+- 🎖️ automatically expose the bot as a rebust API using FastAPI (early release)
+- 🏓 automatically expose the bot as a UI using Gradio
+
+**Coming soon:**
+
+- 🗣️ accept voice as an input using [whisper](https://github.com/openai/whisper)
+- 👍 validate and correct the outputs of LLMs using [guardrails](https://github.com/ShreyaR/guardrails)
+- 💰 semanticly cache LLM Queries and reduce Costs by 10x using [GPTCache](https://github.com/zilliztech/GPTCache)
+- 🏋️ mega-easy LLM training
+- 🚀 mega-easy deployment
 
 🤖 Megabots is backed by some of the most famous tools for productionalising AI. It uses [LangChain](https://docs.langchain.com/docs/) for managing LLM chains, [FastAPI](https://fastapi.tiangolo.com/) to create a production ready API, [Gradio](https://gradio.app/) to create a UI. At the moment it uses [OpenAI](https://openai.com/) to generate answers, but we plan to support other LLMs in the future.
 
