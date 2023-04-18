@@ -1,8 +1,11 @@
 # 🤖 Megabots
 
 [![Tests](https://github.com/momegas/qnabot/actions/workflows/python-package.yml/badge.svg)](https://github.com/momegas/qnabot/actions/workflows/python-package.yml)
+![](https://dcbadge.vercel.app/api/server/zkqDWk5S7P?style=flat&n&compact=true)
 
 🤖 Megabots provides State-of-the-art, production ready LLM apps made mega-easy, so you don't have to build them from scratch 🤯 Create a bot, now 🫵
+
+👉 Join us on Discord: https://discord.gg/zkqDWk5S7P
 
 The Megabots library can be used to create bots that:
 
