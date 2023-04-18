@@ -13,7 +13,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chains.conversational_retrieval.prompts import QA_PROMPT
 from langchain.document_loaders import DirectoryLoader
-from megabots.vectorstores import vectorstore
+from megabots.vectorstores import VectorStore, vectorstore
 
 load_dotenv()
 
@@ -26,8 +26,7 @@ class Bot:
         prompt_variables: list[str] | None = None,
         index: str | None = None,
         sources: bool | None = False,
-        # TODO: Fix this typing
-        vectorstore: Any | None = None,
+        vectorstore: VectorStore | None = None,
         memory: str | None = None,
         verbose: bool = False,
         temperature: int = 0,
@@ -84,7 +83,7 @@ class Bot:
             )
         self.loader = DirectoryLoader(index, recursive=True)
 
-    def load_or_create_index(self, index: str, vectorstore=None):
+    def load_or_create_index(self, index: str, vectorstore: VectorStore | None = None):
         # Load an existing index from disk or create a new one if not available
         if vectorstore is not None:
             self.search_index = vectorstore.client.from_documents(

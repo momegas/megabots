@@ -10,6 +10,14 @@ class MilvusVectorStore:
         self.client = Milvus
 
 
+class ChromaVectorStore:
+    pass
+
+
+# Generic type variable for all vectorstores
+VectorStore = type("VectorStore", (MilvusVectorStore, ChromaVectorStore), {})
+
+
 SUPPORTED_VECTORSTORES = {
     "milvus": {
         "impl": MilvusVectorStore,
@@ -18,7 +26,7 @@ SUPPORTED_VECTORSTORES = {
 }
 
 
-def vectorstore(name: str) -> MilvusVectorStore:
+def vectorstore(name: str) -> VectorStore:
     """Return a vectorstore object."""
 
     if name is None:
