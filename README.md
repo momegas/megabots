@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/momegas/qnabot/actions/workflows/python-package.yml/badge.svg)](https://github.com/momegas/qnabot/actions/workflows/python-package.yml)
 ![](https://dcbadge.vercel.app/api/server/zkqDWk5S7P?style=flat&n&compact=true)
+<a href="https://www.producthunt.com/posts/megabots-2?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-megabots&#0045;2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=390033&theme=light" alt="Megabots - 🤖&#0032;Production&#0032;ready&#0032;full&#0045;stack&#0032;LLM&#0032;apps&#0032;made&#0032;mega&#0045;easy | Product Hunt" style="width: 150px; height: 34px;" width="250" height="54" /></a>
 
 🤖 Megabots provides State-of-the-art, production ready LLM apps made mega-easy, so you don't have to build them from scratch 🤯 Create a bot, now 🫵
 
