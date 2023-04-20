@@ -26,6 +26,10 @@ trace:
 freeze:
 	$(PIP) freeze > requirements.txt
 
+mkdocs: 
+	mkdocs serve 
+
+
 help:
 	@echo "install - install dependencies"
 	@echo "test - run tests"
