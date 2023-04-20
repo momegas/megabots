@@ -14,6 +14,12 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.chains.conversational_retrieval.prompts import QA_PROMPT
 from langchain.document_loaders import DirectoryLoader
 from megabots.vectorstores import VectorStore, vectorstore
+from langchain.memory import (
+    ConversationBufferMemory,
+    ConversationBufferWindowMemory,
+    ConversationSummaryMemory,
+    ConversationSummaryBufferMemory,
+)
 
 load_dotenv()
 
@@ -28,6 +34,7 @@ class Bot:
         sources: bool | None = False,
         vectorstore: VectorStore | None = None,
         memory: str | None = None,
+        memory_window: int = 3,
         verbose: bool = False,
         temperature: int = 0,
     ):
@@ -39,6 +46,8 @@ class Bot:
         self.chain = self.create_chain(
             prompt_template, prompt_variables, sources=sources, verbose=verbose
         )
+
+ 
 
     def create_chain(
         self,
@@ -140,6 +149,26 @@ SUPPORTED_TASKS = {
 
 SUPPORTED_MODELS = {}
 
+SUPPORTED_MEMORY = {
+    "conversation-buffer-window": {
+        "impl": ConversationBufferWindowMemory,
+        "default": {"memory_window": 3},
+    },
+    "conversation-buffer": {
+        "impl": ConversationBufferMemory,
+        "default": {},
+    },
+    "conversation-summary": {
+        "impl": ConversationSummaryMemory,
+        "default": {},
+    "conversation-summary-buffer": {
+        "impl": ConversationSummaryBufferMemory,
+        "default": {
+            "max_token_limit":40
+            }
+    },
+}
+
 
 def bot(
     task: str | None = None,
@@ -147,6 +176,8 @@ def bot(
     index: str | None = None,
     prompt_template: str | None = None,
     prompt_variables: list[str] | None = None,
+    memory: str | None = None,
+    memory_window: int = 3,
     verbose: bool = False,
     temperature: int = 0,
     **kwargs,
