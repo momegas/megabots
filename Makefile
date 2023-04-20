@@ -28,6 +28,10 @@ freeze:
 
 gradio:
 	gradio app.py
+	
+mkdocs: 
+	mkdocs serve 
+
 
 help:
 	@echo "install - install dependencies"
