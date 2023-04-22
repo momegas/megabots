@@ -13,6 +13,9 @@ setup(
         "fastapi",
         "faiss-cpu",
         "pdfminer.six",
+        "gradio",
+        "python-dotenv",
+        "openai",
     ],
     author="Megaklis Vasilakis",
     author_email="megaklis.vasilakis@gmail.com",
@@ -20,6 +23,14 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/momegas/megabots",
+    keywords = [
+    "bot"
+    "qna-bot"
+    "information-retrieval",
+    "chatbot",
+    "question-answering",
+    "prompt-engineering"
+    ]
     license="MIT",
     classifiers=[
         # Choose appropriate classifiers from

@@ -1,7 +1,11 @@
 # 🤖 Megabots
 
 [![Tests](https://github.com/momegas/qnabot/actions/workflows/python-package.yml/badge.svg)](https://github.com/momegas/qnabot/actions/workflows/python-package.yml)
+[![Python Version](https://img.shields.io/badge/python-%203.10%20-blue.svg)](#supported-python-versions) 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![License](https://img.shields.io/badge/License-MIT-informational.svg)](https://github.com/momegas/megabots/blob/main/LICENCE)
 ![](https://dcbadge.vercel.app/api/server/zkqDWk5S7P?style=flat&n&compact=true)
+
 
 🤖 Megabots provides State-of-the-art, production ready LLM apps made mega-easy, so you don't have to build them from scratch 🤯 Create a bot, now 🫵
 
@@ -40,7 +44,8 @@ import os
 
 os.environ["OPENAI_API_KEY"] = "my key"
 
-# Create a bot 👉 with one line of code. Automatically loads your data from ./index or index.pkl.
+# Create a bot 👉 with one line of code. Automatically loads your data from ./index or index.pkl. 
+# Keep in mind that you need to have one or another.
 qnabot = bot("qna-over-docs")
 
 # Ask a question
@@ -239,3 +244,9 @@ sequenceDiagram
     API -->> User: Return response
 
 ```
+## How to contribute?
+
+We welcome any suggestions, problem reports, and contributions!
+For any changes you would like to make to this project, we invite you to submit an [issue](https://github.com/momegas/megabots/issues).
+
+For more information, see [`CONTRIBUTING`](https://github.com/momegas/megabots/blob/main/CONTRIBUTING.md) instructions.

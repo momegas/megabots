@@ -1,0 +1,2 @@
+# Ignore Jupyter notebooks from Git stats
+*.ipynb linguist-documentation
