@@ -1,31 +1,15 @@
-from langchain.memory import (
-    ConversationBufferMemory,
-    ConversationBufferWindowMemory,
-    ConversationSummaryMemory,
-    ConversationSummaryBufferMemory,
-)
+from langchain.memory import ConversationBufferMemory, ConversationBufferWindowMemory
 
 
 class ConversationBuffer:
     def __init__(self):
-        self.memory = ConversationBufferMemory
+        self.memory = ConversationBufferMemory(input_key="question")
 
 
 class ConversationBufferWindow:
-    def __init__(self, memory_window: int):
-        self.memory_window: int = memory_window
-        self.memory = ConversationBufferWindowMemory
-
-
-class ConversationSummary:
-    def __init__(self):
-        self.memory = ConversationSummaryMemory
-
-
-class ConversationSummaryBuffer:
-    def __init__(self, max_token_limit: int):
-        self.max_token_limit: int = max_token_limit
-        self.memory = ConversationSummaryBufferMemory
+    def __init__(self, k: int):
+        self.k: int = k
+        self.memory = ConversationBufferWindowMemory(k=self.k, input_key="question")
 
 
 SUPPORTED_MEMORY = {
@@ -35,35 +19,17 @@ SUPPORTED_MEMORY = {
     },
     "conversation-buffer-window": {
         "impl": ConversationBufferWindow,
-        "default": {"memory_window": 3},
-    },
-    "conversation-summary": {
-        "impl": ConversationSummary,
-        "default": {},
-    },
-    "conversation-summary-buffer": {
-        "impl": ConversationSummaryBuffer,
-        "default": {"max_token_limit": 40},
+        "default": {"k": 3},
     },
 }
 
 
-Memory = type(
-    "Memory",
-    (
-        ConversationBuffer,
-        ConversationBufferWindow,
-        ConversationSummary,
-        ConversationSummaryBuffer,
-    ),
-    {},
-)
+Memory = type("Memory", (ConversationBuffer, ConversationBufferWindow), {})
 
 
 def memory(
     name: str = "conversation-buffer-window",
-    memory_window: int | None = None,
-    max_token_limit: int | None = None,
+    k: int | None = None,
 ) -> Memory:
     if name is None:
         raise RuntimeError("Impossible to instantiate memory without a name.")
@@ -74,13 +40,6 @@ def memory(
     cl = SUPPORTED_MEMORY[name]["impl"]
 
     if name == "conversation-buffer-window":
-        if max_token_limit != None:
-            raise ValueError(f"max_token_limit cannot be set for {name} memory")
-        return cl(memory_window=memory_window)
-
-    if name == "conversation-summary-buffer":
-        if max_token_limit != None:
-            raise ValueError(f"memory_window cannot be set for {name} memory")
-        return cl(max_token_limit=max_token_limit)
+        return cl(k=k)
 
     return SUPPORTED_MEMORY[name]["impl"]()

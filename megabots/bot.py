@@ -10,6 +10,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chains.conversational_retrieval.prompts import QA_PROMPT
 from langchain.document_loaders import DirectoryLoader
+from megabots.prompt import QA_MEMORY_PROMPT
 from megabots.vectorstore import VectorStore
 from megabots.memory import Memory
 import megabots
@@ -19,8 +20,7 @@ class Bot:
     def __init__(
         self,
         model: str | None = None,
-        prompt_template: str | None = None,
-        prompt_variables: list[str] | None = None,
+        prompt: PromptTemplate | None = None,
         index: str | None = None,
         sources: bool | None = False,
         vectorstore: VectorStore | None = None,
@@ -28,36 +28,36 @@ class Bot:
         verbose: bool = False,
         temperature: int = 0,
     ):
+        self.vectorstore = vectorstore
+        self.memory = memory
+        self.prompt = prompt or QA_MEMORY_PROMPT if self.memory else QA_PROMPT
         self.select_model(model, temperature)
         self.create_loader(index)
         self.load_or_create_index(index, vectorstore)
-        self.vectorstore = vectorstore
-        self.memory = memory
+
         # Load the question-answering chain for the selected model
-        self.chain = self.create_chain(
-            prompt_template, prompt_variables, sources=sources, verbose=verbose
-        )
+        self.chain = self.create_chain(sources=sources, verbose=verbose)
 
     def create_chain(
         self,
-        prompt_template: str | None = None,
-        prompt_variables: list[str] | None = None,
         sources: bool | None = False,
         verbose: bool = False,
     ):
-        prompt = (
-            PromptTemplate(template=prompt_template, input_variables=prompt_variables)
-            if prompt_template is not None and prompt_variables is not None
-            else QA_PROMPT
-        )
         # TODO: Changing the prompt here is not working. Leave it as is for now.
         # Reference: https://github.com/hwchase17/langchain/issues/2858
         if sources:
             return load_qa_with_sources_chain(
-                self.llm, chain_type="stuff", verbose=verbose
+                self.llm,
+                chain_type="stuff",
+                memory=self.memory.memory if self.memory else None,
+                verbose=verbose,
             )
         return load_qa_chain(
-            self.llm, chain_type="stuff", verbose=verbose, prompt=prompt
+            self.llm,
+            chain_type="stuff",
+            verbose=verbose,
+            prompt=self.prompt,
+            memory=self.memory.memory if self.memory else None,
         )
 
     def select_model(self, model: str | None, temperature: float):
@@ -132,6 +132,7 @@ SUPPORTED_TASKS = {
             "model": "gpt-3.5-turbo",
             "temperature": 0,
             "index": "./index",
+            "input_variables": ["context", "question"],
         },
     }
 }
@@ -141,10 +142,10 @@ SUPPORTED_MODELS = {}
 
 def bot(
     task: str | None = None,
+    *,
     model: str | None = None,
     index: str | None = None,
-    prompt_template: str | None = None,
-    prompt_variables: list[str] | None = None,
+    prompt: str | None = None,
     memory: str | Memory | None = None,
     vectorstore: str | VectorStore | None = None,
     verbose: bool = False,
@@ -154,13 +155,21 @@ def bot(
 
     Args:
         task (str | None, optional): The given task. Can be one of the SUPPORTED_TASKS.
+
         model (str | None, optional): Model to be used. Can be one of the SUPPORTED_MODELS.
+
         index (str | None, optional): Data that the model will load and store index info.
         Can be either a local file path, a pickle file, or a url of a vector database.
         By default it will look for a local directory called "files" in the current working directory.
-        prompt_template (str | None, optional): Prompt template to be used. Specify variables with {var_name}.
-        prompt_variables (list[str] | None, optional): Prompt variables to be used in the prompt template.
+
+        prompt (str | None, optional): The prompt that the bot will take in. Mark variables like this: {variable}.
+        Variables are context, question, and history if the bot has memory.
+
+        vectorstore: (str | VectorStore | None, optional): The vectorstore that the bot will save the index to.
+        If only a string is passed, the defaults values willl be used.
+
         verbose (bool, optional): Verbocity. Defaults to False.
+
         temperature (int, optional): Temperature. Defaults to 0.
 
     Raises:
@@ -178,11 +187,17 @@ def bot(
 
     task_defaults = SUPPORTED_TASKS[task]["default"]
 
+    if memory is not None:
+        task_defaults["input_variables"].append("history")
+
     return SUPPORTED_TASKS[task]["impl"](
         model=model or task_defaults["model"],
         index=index or task_defaults["index"],
-        prompt_template=prompt_template,
-        prompt_variables=prompt_variables,
+        prompt=None
+        if prompt is None
+        else PromptTemplate(
+            template=prompt, input_variables=task_defaults["input_variables"]
+        ),
         temperature=temperature,
         verbose=verbose,
         vectorstore=megabots.vectorstore(vectorstore)

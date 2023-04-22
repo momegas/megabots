@@ -1,42 +1,25 @@
-import pytest
-from megabots.memory import (
-    ConversationBufferWindow,
-    ConversationSummaryBuffer,
-    memory,
-    Memory,
-    SUPPORTED_MEMORY,
-)
+from pytest import raises
+from megabots import memory
+from megabots.memory import ConversationBuffer, ConversationBufferWindow
 
 
-def test_memory_name_none():
-    with pytest.raises(RuntimeError):
-        memory(name=None)
-
-
-def test_memory_not_supported():
-    with pytest.raises(ValueError):
-        memory(name="unsupported_memory_type")
+def test_memory_conversation_buffer():
+    mem = memory(name="conversation-buffer")
+    assert isinstance(mem, ConversationBuffer)
 
 
 def test_memory_conversation_buffer_window():
-    mem_obj = memory(name="conversation-buffer-window", memory_window=5)
-    assert isinstance(mem_obj, ConversationBufferWindow)
-    assert mem_obj.memory_window == 5
-    assert mem_obj.__class__ == SUPPORTED_MEMORY["conversation-buffer-window"]["impl"]
+    mem = memory(name="conversation-buffer-window", k=10)
+    assert isinstance(mem, ConversationBufferWindow)
 
 
-def test_memory_conversation_buffer_window_invalid_max_token_limit():
-    with pytest.raises(ValueError):
-        memory(name="conversation-buffer-window", memory_window=5, max_token_limit=10)
+def test_memory_unsupported_name():
+    with raises(ValueError, match=r"Memory invalid-name is not supported."):
+        memory(name="invalid-name")
 
 
-def test_memory_conversation_summary_buffer():
-    mem_obj = memory(name="conversation-summary-buffer", max_token_limit=10)
-    assert isinstance(mem_obj, ConversationSummaryBuffer)
-    assert mem_obj.max_token_limit == 10
-    assert mem_obj.__class__ == SUPPORTED_MEMORY["conversation-summary-buffer"]["impl"]
-
-
-def test_memory_conversation_summary_buffer_invalid_memory_window():
-    with pytest.raises(ValueError):
-        memory(name="conversation-summary-buffer", memory_window=5, max_token_limit=10)
+def test_memory_no_name():
+    with raises(
+        RuntimeError, match=r"Impossible to instantiate memory without a name."
+    ):
+        memory(name=None)
