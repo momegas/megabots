@@ -1,0 +1,44 @@
+name: Improve existing content
+description: Make a suggestion to improve the content in an existing article.
+labels:
+  - content
+body:
+  - type: markdown
+    attributes:
+      value: |
+        * For questions, ask in [Discussions](https://github.com/momegas/megabots/discussions/categories/q-a).
+        * Before you file an issue read the [Contributing guide](https://github.com/momegas/megabots/blob/docs/CONTRIBUTING.md).
+        * Check to make sure someone hasn't already opened a similar [issue](https://github.com/momegas/megabots/issues).
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: This project has a Code of Conduct that all participants are expected to understand and follow.
+      options:
+        - label: I have read and agree to the projects [Code of Conduct](https://github.com/momegas/megabots/blob/main/CODE_OF_CONDUCT.md)
+          required: true
+
+  - type: textarea
+    attributes:
+      label: What article is affected?
+      description: Please link to the article you'd like to see updated.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: What part(s) of the article would you like to see updated?
+      description: |
+        - Give as much detail as you can to help us understand the change you want to see. 
+        - Why should the docs be changed? What use cases does it support? 
+        - What is the expected outcome?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Add any other context or screenshots about the feature request for the documentation here.
+    validations:
+      required: false
