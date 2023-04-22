@@ -1,3 +1,16 @@
+---
+title: 🤖 Megabots
+emoji: 🤖
+colorFrom: yellow
+colorTo: green
+sdk: gradio
+sdk_version: 3.24.1
+app_file: app.py
+pinned: false
+license: mit
+python_version: 3.10.0
+---
+
 # 🤖 Megabots
 
 [![Tests](https://github.com/momegas/qnabot/actions/workflows/python-package.yml/badge.svg)](https://github.com/momegas/qnabot/actions/workflows/python-package.yml)
