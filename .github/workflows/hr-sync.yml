@@ -32,8 +32,8 @@ jobs:
           python_version: 3.10.0
           ---
           " > tempfile.txt
-          cat tempfile.txt readme.md > newfile.txt
-          mv newfile.txt readme.md
+          cat tempfile.txt README.md > newfile.txt
+          mv newfile.txt README.md
 
           git commit -m "temp readme with HF config"
           git push https://$HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/$HF_USERNAME/megabots main
