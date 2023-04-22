@@ -14,19 +14,20 @@ def create_api(bot: Bot):
     return app
 
 
-def create_interface(bot_instance: Bot, examples: list[list[str]] = []):
+def create_interface(bot_instance: Bot, markdown: str = ""):
     with gr.Blocks() as interface:
-        chatbot = gr.Chatbot([], elem_id="chatbot").style(height=750)
+        gr.Markdown(markdown)
+        chatbot = gr.Chatbot([], elem_id="chatbot").style(height=450)
         msg = gr.Textbox(
             show_label=False,
-            placeholder="Enter text and press enter, or upload an image",
+            placeholder="Enter text and press enter",
         ).style(container=False)
-        clear = gr.Button("Clear")
 
         def user(user_message, history):
             return "", history + [[user_message, None]]
 
         def bot(history):
+            print("im here")
             response = bot_instance.ask(history[-1][0])
             history[-1][1] = response
             return history
@@ -34,6 +35,5 @@ def create_interface(bot_instance: Bot, examples: list[list[str]] = []):
         msg.submit(user, [msg, chatbot], [msg, chatbot], queue=False).then(
             bot, chatbot, chatbot
         )
-        clear.click(lambda: None, None, chatbot, queue=False)
 
     return interface

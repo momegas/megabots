@@ -40,6 +40,6 @@ def memory(
     cl = SUPPORTED_MEMORY[name]["impl"]
 
     if name == "conversation-buffer-window":
-        return cl(k=k)
+        return cl(k=k or SUPPORTED_MEMORY[name]["default"]["k"])
 
     return SUPPORTED_MEMORY[name]["impl"]()

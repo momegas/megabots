@@ -26,6 +26,9 @@ trace:
 freeze:
 	$(PIP) freeze > requirements.txt
 
+gradio:
+	gradio app.py
+
 help:
 	@echo "install - install dependencies"
 	@echo "test - run tests"
