@@ -1,5 +1,5 @@
 from typing import Type, TypeVar
-from langchain.vectorstores import Milvus, Qdrant
+from langchain.vectorstores import Milvus
 from abc import ABC
 
 
@@ -26,7 +26,9 @@ SUPPORTED_VECTORSTORES = {
 }
 
 
-def vectorstore(name: str) -> VectorStore:
+def vectorstore(
+    name: str, host: str | None = None, port: int | None = None
+) -> VectorStore:
     """Return a vectorstore object."""
 
     if name is None:
@@ -36,6 +38,6 @@ def vectorstore(name: str) -> VectorStore:
         raise ValueError(f"Vectorstore {name} is not supported.")
 
     return SUPPORTED_VECTORSTORES[name]["impl"](
-        host=SUPPORTED_VECTORSTORES[name]["default"]["host"],
-        port=SUPPORTED_VECTORSTORES[name]["default"]["port"],
+        host=host or SUPPORTED_VECTORSTORES[name]["default"]["host"],
+        port=port or SUPPORTED_VECTORSTORES[name]["default"]["port"],
     )
