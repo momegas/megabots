@@ -2,7 +2,6 @@
 
 [![Tests](https://github.com/momegas/qnabot/actions/workflows/python-package.yml/badge.svg)](https://github.com/momegas/qnabot/actions/workflows/python-package.yml)
 ![](https://dcbadge.vercel.app/api/server/zkqDWk5S7P?style=flat&n&compact=true)
-<a href="https://www.producthunt.com/posts/megabots-2?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-megabots&#0045;2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=390033&theme=light" alt="Megabots - 🤖&#0032;Production&#0032;ready&#0032;full&#0045;stack&#0032;LLM&#0032;apps&#0032;made&#0032;mega&#0045;easy | Product Hunt" style="width: 150px; height: 34px;" width="250" height="54" /></a>
 
 🤖 Megabots provides State-of-the-art, production ready LLM apps made mega-easy, so you don't have to build them from scratch 🤯 Create a bot, now 🫵
 
@@ -58,12 +57,114 @@ qnabot = bot("qna-over-docs", index="./index")
 
 # Change the model
 qnabot = bot("qna-over-docs", model="text-davinci-003")
-
-# Change the prompt
-prompt_template = "Be humourous in your responses. Question: {question}\nContext: {context}, Answer:"
-prompt_variables=["question", "context"]
-qnabot = bot("qna-over-docs", prompt_template=prompt_template, prompt_variables=prompt_variables)
 ```
+
+## Changing the bot's prompt
+
+You can change the bots promnpt to customize it to your needs. In the `qna-over-docs` type of bot you will need to pass 2 variables for the `context` (knwoledge searched from the index) and the `question` (the human question).
+
+```python
+from megabots import bot
+
+prompt = """
+Use the following pieces of context to answer the question at the end.
+If you don't know the answer, just say that you don't know, don't try to make up an answer.
+Answer in the style of Tony Stark.
+
+{context}
+
+Question: {question}
+Helpful humorous answer:"""
+
+qnabot = bot("qna-over-docs", index="./index.pkl", prompt=prompt)
+
+qnabot.ask("what was the first roster of the avengers?")
+```
+
+## Working with memory
+
+You can easily add memory to your `bot` using the `memory` parameter. It accepts a string with the type of the memory to be used. This defaults to some sane dafaults.
+Should you need more configuration, you can use the `memory` function and pass the type of memory and the configuration you need.
+
+```python
+from megabots import bot
+
+qnabot = bot("qna-over-docs", index="./index.pkl", memory="conversation-buffer")
+
+print(qnabot.ask("who is iron man?"))
+print(qnabot.ask("was he in the first roster?"))
+# Bot should understand who "he" refers to.
+```
+
+Or using the `memory`factory function
+
+```python
+from megabots import bot, memory
+
+mem("conversation-buffer-window", k=5)
+
+qnabot = bot("qna-over-docs", index="./index.pkl", memory=mem)
+
+print(qnabot.ask("who is iron man?"))
+print(qnabot.ask("was he in the first roster?"))
+```
+
+NOTE: For the `qna-over-docs` bot, when using memory and passing your custom prompt, it is important to remember to pass one more variable to your custom prompt to facilitate for chat history. The variable name is `history`.
+
+```python
+from megabots import bot
+
+prompt = """
+Use the following pieces of context to answer the question at the end.
+If you don't know the answer, just say that you don't know, don't try to make up an answer.
+
+{context}
+
+{history}
+Human: {question}
+AI:"""
+
+qnabot = bot("qna-over-docs", prompt=prompt, index="./index.pkl", memory="conversation-buffer")
+
+print(qnabot.ask("who is iron man?"))
+print(qnabot.ask("was he in the first roster?"))
+```
+
+## Using Megabots with Milvus (more DBs comming soon)
+
+Megabots `bot` can also use Milvus as a backend for its search engine. You can find an example of how to do it below.
+
+In order to run Milvus you need to follow [this guide](https://milvus.io/docs/example_code.md) to download a docker compose file and run it.
+The command is:
+
+```bash
+wget https://raw.githubusercontent.com/milvus-io/pymilvus/v2.2.7/examples/hello_milvus.py
+```
+
+You can then [install Attu](https://milvus.io/docs/attu_install-docker.md) as a management tool for Milvus
+
+```python
+from megabots import bot
+
+# Attach a vectorstore by passing the name of the database. Default port for milvus is 19530 and default host is localhost
+# Point it to your files directory so that it can index the files and add them to the vectorstore
+bot = bot("qna-over-docs", index="./examples/files/", vectorstore="milvus")
+
+bot.ask("what was the first roster of the avengers?")
+```
+
+Or use the `vectorstore` factory function for more customisation
+
+```python
+
+from megabots import bot, vectorstore
+
+milvus = vectorstore("milvus", host="localhost", port=19530)
+
+bot = bot("qna-over-docs", index="./examples/files/", vectorstore=milvus)
+```
+
+## Exposing an API with FastAPI
 
 You can also create a FastAPI app that will expose the bot as an API using the create_app function.
 Assuming you file is called `main.py` run `uvicorn main:app --reload` to run the API locally.
@@ -74,6 +175,8 @@ from megabots import bot, create_api
 
 app = create_app(bot("qna-over-docs"))
 ```
+
+## Exposing a Gradio chat-like interface
 
 You can expose a gradio UI for the bot using `create_interface` function.
 Assuming your file is called `ui.py` run `gradio qnabot/ui.py` to run the UI locally.
@@ -89,14 +192,16 @@ demo = create_interface(bot("qna-over-docs"))
 
 The `bot` function should serve as the starting point for creating and customising your bot. Below is a list of the available arguments in `bot`.
 
-| Argument         | Description                                                                                                                                                                                                                                                                                |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| task             | The type of bot to create. Available options: `qna-over-docs`. More comming soon                                                                                                                                                                                                           |
-| index            | Specifies the index to use for the bot. It can either be a saved index file (e.g., `index.pkl`) or a directory of documents (e.g., `./index`). In the case of the directory the index will be automatically created. If no index is specified `bot` will look for `index.pkl` or `./index` |
-| model            | The name of the model to use for the bot. You can specify a different model by providing its name, like "text-davinci-003". Supported models: `gpt-3.5-turbo` (default),`text-davinci-003` More comming soon.                                                                              |
-| prompt_template  | A string template for the prompt, which defines the format of the question and context passed to the model. The template should include placeholders for the variables specified in `prompt_variables`.                                                                                    |
-| prompt_variables | A list of variables to be used in the prompt template. These variables are replaced with actual values when the bot processes a query.                                                                                                                                                     |
-| sources          | When `sources` is `True` the bot will also include sources in the response. A known [issue](https://github.com/hwchase17/langchain/issues/2858) exists, where if you pass a custom prompt with sources the code breaks.                                                                    |
+| Argument    | Description                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| task        | The type of bot to create. Available options: `qna-over-docs`. More comming soon                                                                                                                                                                                                           |
+| index       | Specifies the index to use for the bot. It can either be a saved index file (e.g., `index.pkl`) or a directory of documents (e.g., `./index`). In the case of the directory the index will be automatically created. If no index is specified `bot` will look for `index.pkl` or `./index` |
+| model       | The name of the model to use for the bot. You can specify a different model by providing its name, like "text-davinci-003". Supported models: `gpt-3.5-turbo` (default),`text-davinci-003` More comming soon.                                                                              |
+| prompt      | A string template for the prompt, which defines the format of the question and context passed to the model. The template should include placeholder variables like so: `context`, `{question}` and in the case of using memory `history`.                                                  |
+| memory      | The type of memory to be used by the bot. Can be a string with the type of the memory or you can use `memory` factory function. Supported memories: `conversation-buffer`, `conversation-buffer-window`                                                                                    |
+| vectorstore | The vectorstore to be used for the index. Can be a string with the name of the databse or you can use `vectorstore` factory function. Supported DBs: `milvus`.                                                                                                                             |
+
+| sources | When `sources` is `True` the bot will also include sources in the response. A known [issue](https://github.com/hwchase17/langchain/issues/2858) exists, where if you pass a custom prompt with sources the code breaks. |
 
 ## How QnA bot works
 
