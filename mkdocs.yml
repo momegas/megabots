@@ -1,53 +1,133 @@
-site_name: 🤖 Megabots
-features:
-  - navigation.instant
-  - navigation.tabs
-  - navigation.sections
+# Copyright (c) 2016-2023 Martin Donath <martin.donath@squidfunk.com>
 
-repo_url: https://github.com/momegas/megabots
-repo_name: momegas/megabots
-site_author: Megaklis Vasilakis
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to
+# deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+# IN THE SOFTWARE.
+
+# Project information
+site_name: MegaBots - production ready LLM apps
+site_url: https://momegas.github.io/megabots/
+site_author: LightningRalf
 site_description: >-
-  🤖 Megabots provides State-of-the-art, production ready LLM apps made mega-easy, 
-  so you don't have to build them from scratch 🤯 Create a bot, now 🫵
+  🤖 State-of-the-art, production ready LLM apps made mega-easy, so you don't have to build them from scratch 🤯 
+  Create a bot, now 🫵
+
+# Repository
+repo_name: momegas/megabots
+repo_url: https://github.com/momegas/megabots
+
+# Copyright
 copyright: Copyright &copy; 2023 Megaklis Vasilakis
+
+# Configuration
+theme:
+  name: material
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotation
+    - content.code.copy
+    # - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    # - navigation.instant
+    # - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+# Customization
+extra:
+  annotate:
+    json: [.s2]
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/momegas/megabots
+    #- icon: fontawesome/brands/gitter
+    #  link: https://gitter.im/momegas/megabots
+    #- icon: fontawesome/brands/docker
+    #  link: https://hub.docker.com/r/momegas/megabots
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/megabots/
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/megaklis.vasilakis
+    - icon: fontawesome/brands/square-github
+      link: https://github.com/momegas
+
 # Page tree
 nav:
   - Home: index.md
   - Getting started:
-      - Installation: getting-started.md
-      - Creating your site: creating-your-site.md
-      - Contributing:
-          - contributing/index.md
-          - Reporting a bug: contributing/reporting-a-bug.md
-          - Reporting a docs issue: contributing/reporting-a-docs-issue.md
-          - Requesting a change: contributing/requesting-a-change.md
-          - Asking a question: https://github.com/squidfunk/mkdocs-material/discussions
-      - Guides:
-          - Creating a reproduction: guides/creating-a-reproduction.md
-  - Setup:
-      - setup/index.md
-      - Setting up navigation: setup/setting-up-navigation.md
+    - Introduction: 01-general/introduction.md
+    - Setup: 01-general/setup.md
+    - Component overview:
+      - Overview: 03-components/overview.md
+      - Prompting: 03-components/prompt.md
+      - Tools: 03-components/utils.md
+      - Memory: 03-components/memory.md
+      - Vectorstores: 03-components/vectorstores.md
+      - Agents: 03-components/agents.md
+      - Multi-Agent-Systems: 03-components/multi-agent-systems.md
+    - Customization: 04-customization/customising-the-bot.md
+    - Contributing:
+      - Code of Conduct: 05-contributing/doc-CoC.md
+      - How to contribute: 05-contributing/doc-contributing.md
+      - Report a security vulnerability: 05-contributing/doc-security.md
+      - Report a bug: 05-contributing/doc-bugreport.md
+      - Request a feature: 05-contributing/doc-featurerequest.md
+      - Ask a question🔗: https://github.com/momegas/megabots/discussions/categories/q-a
+      - Join the community🔗: https://discord.gg/2RUwt43U58
+    - Examples: 
+      - Agents with memory: 02-examples/agent-with-memory.ipynb
+      - Agents with tools: 02-examples/agent-with-tool.ipynb
+      - Multi-Agent-System: 02-examples/multi-agent-system.ipynb
+    - API reference: api-reference.md
+  - Blog:
+    - 06-blog/index.md
+    - 2023:
+      - 06-blog/posts/how-it-started.md
 
-theme:
-  name: material
-  logo: null
-  features:
-    - navigation.sections
-    - navigation.tabs
-    - navigation.top
 
-  palette:
-    # Palette toggle for light mode
-    - scheme: default
-      primary: blue grey
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-
-    # Palette toggle for dark mode
-    - scheme: slate
-      primary: grey
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+copyright: |
+  &copy; 2023 <a href="https://github.com/momegas" target="_blank" rel="noopener">Megaklis Vasilakis</a>
