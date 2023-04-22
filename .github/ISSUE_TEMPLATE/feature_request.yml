@@ -20,7 +20,7 @@ body:
     attributes:
       label: Problem Description
       description: 'Describe the problem you are trying to solve or the limitation you are facing'
-      placeholder: 'I often work at night and find the bright interface hard on my eyes' / if there is an open issue please link it with #number
+      placeholder: 'I often work at night and find the bright interface hard on my eyes / if there is an open issue please link it with #number'
     validations:
       required: true
   - type: textarea
