@@ -34,5 +34,8 @@ jobs:
 
           git config --global user.email "megaklis.vasilakis@gmail.com"
           git config --global user.name "momegas"
+
+          git add README.md
+
           git commit -m "temp readme with HF config"
           git push https://$HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/$HF_USERNAME/megabots main
