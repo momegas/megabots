@@ -23,14 +23,14 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/momegas/megabots",
-    keywords = [
-    "bot"
-    "qna-bot"
-    "information-retrieval",
-    "chatbot",
-    "question-answering",
-    "prompt-engineering"
-    ]
+    keywords=[
+        "bot",
+        "qna-bot",
+        "information-retrieval",
+        "chatbot",
+        "question-answering",
+        "prompt-engineering",
+    ],
     license="MIT",
     classifiers=[
         # Choose appropriate classifiers from
