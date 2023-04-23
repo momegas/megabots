@@ -33,6 +33,16 @@ repo_url: https://github.com/momegas/megabots
 # Copyright
 copyright: Copyright &copy; 2023 Megaklis Vasilakis
 
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
 # Configuration
 theme:
   name: material
@@ -97,32 +107,22 @@ extra:
 
 # Page tree
 nav:
-  - Home: index.md
-  - Getting started:
-    - Introduction: 01-general/introduction.md
-    - Setup: 01-general/setup.md
-    - Component overview:
-      - Overview: 03-components/overview.md
-      - Prompting: 03-components/prompt.md
-      - Tools: 03-components/utils.md
-      - Memory: 03-components/memory.md
-      - Vectorstores: 03-components/vectorstores.md
-      - Agents: 03-components/agents.md
-      - Multi-Agent-Systems: 03-components/multi-agent-systems.md
-    - Customization: 04-customization/customising-the-bot.md
-    - Contributing:
-      - Code of Conduct: 05-contributing/doc-CoC.md
+  - Home:
+    - Index: index.md
+    - Quick start: 01-general/quick-start.md
+    - Features overview:
+      - Create a simple bot: 03-features/bot.md
+      - Change the prompt: 03-features/prompt.md
+      - Add memory to your bot: 03-features/memory.md
+      - Connect a vector store: 03-features/vectorstores.md
+      - Expose bot API: ""
+      - Expose chatbot interface: ""
+
+    - Community:
       - How to contribute: 05-contributing/doc-contributing.md
-      - Report a security vulnerability: 05-contributing/doc-security.md
-      - Report a bug: 05-contributing/doc-bugreport.md
-      - Request a feature: 05-contributing/doc-featurerequest.md
       - Ask a question🔗: https://github.com/momegas/megabots/discussions/categories/q-a
-      - Join the community🔗: https://discord.gg/2RUwt43U58
-    - Examples: 
-      - Agents with memory: 02-examples/agent-with-memory.ipynb
-      - Agents with tools: 02-examples/agent-with-tool.ipynb
-      - Multi-Agent-System: 02-examples/multi-agent-system.ipynb
-    - API reference: api-reference.md
+      - Join Discord🔗: https://discord.gg/2RUwt43U58
+
   - Blog:
     - 06-blog/index.md
     - 2023:

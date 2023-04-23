@@ -28,9 +28,10 @@ class Bot:
         verbose: bool = False,
         temperature: int = 0,
     ):
+        print(prompt)
         self.vectorstore = vectorstore
         self.memory = memory
-        self.prompt = prompt or QA_MEMORY_PROMPT if self.memory else QA_PROMPT
+        self.prompt = prompt if prompt is not None else QA_MEMORY_PROMPT if self.memory else QA_PROMPT
         self.select_model(model, temperature)
         self.create_loader(index)
         self.load_or_create_index(index, vectorstore)
@@ -145,6 +146,7 @@ def bot(
     *,
     model: str | None = None,
     index: str | None = None,
+    sources: bool = False,
     prompt: str | None = None,
     memory: str | Memory | None = None,
     vectorstore: str | VectorStore | None = None,
@@ -193,6 +195,7 @@ def bot(
     return SUPPORTED_TASKS[task]["impl"](
         model=model or task_defaults["model"],
         index=index or task_defaults["index"],
+        sources=sources,
         prompt=None
         if prompt is None
         else PromptTemplate(

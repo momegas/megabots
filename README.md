@@ -12,11 +12,11 @@
 - ✈️ Work is managed in this project: https://github.com/users/momegas/projects/5/views/2
 - 🤖 Documentation bot: https://huggingface.co/spaces/momegas/megabots
 
-**The Megabots library can be used to create bots that:**
+**Megabots can be used to easily create bots that:**
 
 - ⌚️ are production ready, in minutes
 - 🗂️ can answer questions over documents
-- 💾 can connect to vector databases
+- 💾 can connect to vector databases and have memory
 - 🎖️ automatically expose the bot as a rebust API using FastAPI (early release)
 - 🏓 automatically expose the bot as a UI using Gradio
 
@@ -205,8 +205,7 @@ The `bot` function should serve as the starting point for creating and customisi
 | prompt      | A string template for the prompt, which defines the format of the question and context passed to the model. The template should include placeholder variables like so: `context`, `{question}` and in the case of using memory `history`.                                                  |
 | memory      | The type of memory to be used by the bot. Can be a string with the type of the memory or you can use `memory` factory function. Supported memories: `conversation-buffer`, `conversation-buffer-window`                                                                                    |
 | vectorstore | The vectorstore to be used for the index. Can be a string with the name of the databse or you can use `vectorstore` factory function. Supported DBs: `milvus`.                                                                                                                             |
-
-| sources | When `sources` is `True` the bot will also include sources in the response. A known [issue](https://github.com/hwchase17/langchain/issues/2858) exists, where if you pass a custom prompt with sources the code breaks. |
+| sources     | When `sources` is `True` the bot will also include sources in the response. A known [issue](https://github.com/hwchase17/langchain/issues/2858) exists, where if you pass a custom prompt with sources the code breaks.                                                                    |
 
 ## How QnA bot works
 

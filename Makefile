@@ -30,7 +30,7 @@ gradio:
 	gradio app.py
 	
 mkdocs: 
-	mkdocs serve 
+	mkdocs serve -a localhost:8001
 
 
 help:
