@@ -30,12 +30,13 @@ site_description: >-
 repo_name: momegas/megabots
 repo_url: https://github.com/momegas/megabots
 
-# Copyright
-copyright: Copyright &copy; 2023 Megaklis Vasilakis
-
 # Configuration
 theme:
   name: material
+  hightlightjs.: true
+  hljs_languages:
+    - yaml
+    - python
   features:
     - announce.dismiss
     - content.action.edit
@@ -74,13 +75,20 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
+# plugins
+plugins: 
+  - typeset
+
+
 # Customization
 extra:
   annotate:
     json: [.s2]
-  analytics:
-    provider: google
-    property: !ENV GOOGLE_ANALYTICS_KEY
+ # analytics:
+ #   provider: google
+ #   property: !ENV GOOGLE_ANALYTICS_KEY
+  status:
+    <identifier>: <description>
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/momegas/megabots
@@ -94,6 +102,12 @@ extra:
       link: https://www.linkedin.com/in/megaklis.vasilakis
     - icon: fontawesome/brands/square-github
       link: https://github.com/momegas
+
+# markdown_extensions
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
 
 # Page tree
 nav:
