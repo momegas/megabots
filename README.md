@@ -49,10 +49,10 @@ os.environ["OPENAI_API_KEY"] = "my key"
 qnabot = bot("qna-over-docs")
 
 # Ask a question
-answer = bot.ask("How do I use this bot?")
+answer = qnabot.ask("How do I use this bot?")
 
 # Save the index to save costs (GPT is used to create the index)
-bot.save_index("index.pkl")
+qnabot.save_index("index.pkl")
 
 # Load the index from a previous run
 qnabot = bot("qna-over-docs", index="./index.pkl")
