@@ -76,7 +76,7 @@ def test_lcserve_invalid_request():
     with LCServeLocally(port=port):
         resp = _session_with_retry().post(
             url=f'{lcserve_host}/ask',
-            json={"foor": "bar"},
+            json={"foo": "bar"},
         )
         assert resp.status_code == 422
         assert "detail" in resp.json()

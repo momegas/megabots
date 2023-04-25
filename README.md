@@ -169,17 +169,39 @@ milvus = vectorstore("milvus", host="localhost", port=19530)
 bot = bot("qna-over-docs", index="./examples/files/", vectorstore=milvus)
 ```
 
-## Exposing an API with FastAPI
+## Exposing an API with [langchain-serve](https://github.com/jina-ai/langchain-serve)
 
-You can also create a FastAPI app that will expose the bot as an API using the create_app function.
-Assuming you file is called `main.py` run `uvicorn main:app --reload` to run the API locally.
-You should then be able to visit `http://localhost:8000/docs` to see the API documentation.
+You can also expose the bot endpoints locally using langchain-serve. A sample file `api.py` is provided in the `megabots` folder.
 
-```python
-from megabots import bot, create_api
-
-app = create_app(bot("qna-over-docs"))
+To expose the API locally, you can do 
+```bash
+lc-serve deploy local megabots.api
 ```
+
+You should then be able to visit `http://localhost:8000/docs` to see & interact with the API documentation.
+
+To deploy your API to the cloud, you can do
+```bash
+lc-serve deploy jcloud megabots.api
+```
+
+```text
+╭──────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ App ID       │                                                         langchain-b362b0596a                                                          │
+├──────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Phase        │                                                                Serving                                                                │
+├──────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Endpoint     │                                               https://langchain-b362b0596a.wolf.jina.ai                                               │
+├──────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ App logs     │ https://dashboard.wolf.jina.ai/d/flow/flow-monitor?var-flow=b362b0596a&var-datasource=thanos&orgId=2&from=now-24h&to=now&viewPanel=85 │
+├──────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Swagger UI   │                                            https://langchain-b362b0596a.wolf.jina.ai/docs                                             │
+├──────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ OpenAPI JSON │                                        https://langchain-b362b0596a.wolf.jina.ai/openapi.json                                         │
+╰──────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+You can read more about langchain-serve [here](https://github.com/jina-ai/langchain-server).
 
 ## Exposing a Gradio chat-like interface
 
