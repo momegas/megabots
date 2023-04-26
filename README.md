@@ -28,7 +28,7 @@
 - 🏋️ mega-easy LLM training
 - 🚀 mega-easy deployment
 
-🤖 Megabots is backed by some of the most famous tools for productionalising AI. It uses [LangChain](https://docs.langchain.com/docs/) for managing LLM chains, [FastAPI](https://fastapi.tiangolo.com/) to create a production ready API, [Gradio](https://gradio.app/) to create a UI. At the moment it uses [OpenAI](https://openai.com/) to generate answers, but we plan to support other LLMs in the future.
+🤖 Megabots is backed by some of the most famous tools for productionalising AI. It uses [LangChain](https://docs.langchain.com/docs/) for managing LLM chains, [langchain-serve](https://github.com/jina-ai/langchain-serve) to create a production ready API, [Gradio](https://gradio.app/) to create a UI. At the moment it uses [OpenAI](https://openai.com/) to generate answers, but we plan to support other LLMs in the future.
 
 ## Getting started
 
@@ -180,10 +180,13 @@ lc-serve deploy local megabots.api
 
 You should then be able to visit `http://localhost:8000/docs` to see & interact with the API documentation.
 
-To deploy your API to the cloud, you can do
+To deploy your API to the cloud, you can do and connect to the API using the endpoint provided in the output.
 ```bash
 lc-serve deploy jcloud megabots.api
 ```
+
+<details>
+<summary>Show command output</summary>
 
 ```text
 ╭──────────────┬──────────────────────────────────────────────────────────────────────────────────────╮
@@ -200,6 +203,8 @@ lc-serve deploy jcloud megabots.api
 │ OpenAPI JSON │                https://langchain-dec14439a6.wolf.jina.ai/openapi.json                │
 ╰──────────────┴──────────────────────────────────────────────────────────────────────────────────────╯
 ```
+</details>
+
 
 You can read more about langchain-serve [here](https://github.com/jina-ai/langchain-server).
 
