@@ -16,6 +16,7 @@ setup(
         "gradio",
         "python-dotenv",
         "openai",
+        "langchain-serve",
     ],
     author="Megaklis Vasilakis",
     author_email="megaklis.vasilakis@gmail.com",

@@ -28,7 +28,7 @@
 - 🏋️ mega-easy LLM training
 - 🚀 mega-easy deployment
 
-🤖 Megabots is backed by some of the most famous tools for productionalising AI. It uses [LangChain](https://docs.langchain.com/docs/) for managing LLM chains, [FastAPI](https://fastapi.tiangolo.com/) to create a production ready API, [Gradio](https://gradio.app/) to create a UI. At the moment it uses [OpenAI](https://openai.com/) to generate answers, but we plan to support other LLMs in the future.
+🤖 Megabots is backed by some of the most famous tools for productionalising AI. It uses [LangChain](https://docs.langchain.com/docs/) for managing LLM chains, [langchain-serve](https://github.com/jina-ai/langchain-serve) to create a production ready API, [Gradio](https://gradio.app/) to create a UI. At the moment it uses [OpenAI](https://openai.com/) to generate answers, but we plan to support other LLMs in the future.
 
 ## Getting started
 
@@ -169,17 +169,44 @@ milvus = vectorstore("milvus", host="localhost", port=19530)
 bot = bot("qna-over-docs", index="./examples/files/", vectorstore=milvus)
 ```
 
-## Exposing an API with FastAPI
+## Exposing an API with [langchain-serve](https://github.com/jina-ai/langchain-serve)
 
-You can also create a FastAPI app that will expose the bot as an API using the create_app function.
-Assuming you file is called `main.py` run `uvicorn main:app --reload` to run the API locally.
-You should then be able to visit `http://localhost:8000/docs` to see the API documentation.
+You can also expose the bot endpoints locally using langchain-serve. A sample file `api.py` is provided in the `megabots` folder.
 
-```python
-from megabots import bot, create_api
-
-app = create_app(bot("qna-over-docs"))
+To expose the API locally, you can do 
+```bash
+lc-serve deploy local megabots.api
 ```
+
+You should then be able to visit `http://localhost:8000/docs` to see & interact with the API documentation.
+
+To deploy your API to the cloud, you can do and connect to the API using the endpoint provided in the output.
+```bash
+lc-serve deploy jcloud megabots.api
+```
+
+<details>
+<summary>Show command output</summary>
+
+```text
+╭──────────────┬──────────────────────────────────────────────────────────────────────────────────────╮
+│ App ID       │                                 langchain-dec14439a6                                 │
+├──────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+│ Phase        │                                       Serving                                        │
+├──────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+│ Endpoint     │                      https://langchain-dec14439a6.wolf.jina.ai                       │
+├──────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+│ App logs     │                               dashboards.wolf.jina.ai                                │
+├──────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+│ Swagger UI   │                    https://langchain-dec14439a6.wolf.jina.ai/docs                    │
+├──────────────┼──────────────────────────────────────────────────────────────────────────────────────┤
+│ OpenAPI JSON │                https://langchain-dec14439a6.wolf.jina.ai/openapi.json                │
+╰──────────────┴──────────────────────────────────────────────────────────────────────────────────────╯
+```
+</details>
+
+
+You can read more about langchain-serve [here](https://github.com/jina-ai/langchain-server).
 
 ## Exposing a Gradio chat-like interface
 
