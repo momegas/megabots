@@ -123,11 +123,9 @@ nav:
       - Ask a question🔗: https://github.com/momegas/megabots/discussions/categories/q-a
       - Join Discord🔗: https://discord.gg/2RUwt43U58
 
-  - Blog:
-    - 06-blog/index.md
-    - 2023:
-      - 06-blog/posts/how-it-started.md
-
+  - Cloud:
+    - Getting started: cloud.md
+   
 
 copyright: |
   &copy; 2023 <a href="https://github.com/momegas" target="_blank" rel="noopener">Megaklis Vasilakis</a>
