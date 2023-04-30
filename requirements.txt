@@ -8,3 +8,6 @@ openai>=0.27
 pytest>=7.3
 rich
 unstructured>=0.5
+python-dotenv==1.0.0
+pdfminer.six
+tiktoken==0.3.3
