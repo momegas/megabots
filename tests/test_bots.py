@@ -7,14 +7,16 @@ from langchain.vectorstores.faiss import FAISS
 
 # Define test data
 test_directory = "./examples/files"
-test_question = "what was the first roster of avengers in comics?"
-correct_answer = "Iron Man, Thor, Hulk, Ant-Man"
+test_question = "what is megabots?"
+correct_answer = "state-of-the-art, production"
 sources = "SOURCES:"
 
 
 def test_ask():
     qnabot = bot("qna-over-docs", index=test_directory)
     answer = qnabot.ask(test_question)
+
+    print(answer)
 
     # Assert that the answer contains the correct answer
     assert correct_answer in answer

@@ -5,6 +5,8 @@ from lcserve import serving
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 index_dir = os.path.join(cur_dir, "..", "examples", "files")
 
+print("hey")
+
 
 @serving
 def ask(question: str) -> str:

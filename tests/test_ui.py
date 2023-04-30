@@ -8,11 +8,10 @@ def test_create_interface():
         def ask(self, question: str):
             return "Answer"
 
-    # create a mock example
-    example = [["What is your name?"], ["My name is Bot."]]
+    markdown = "test"
 
     # call the function with the mock bot and example
-    interface = create_interface(MockBot(), examples=example)
+    interface = create_interface(MockBot(), markdown=markdown)
 
     # check if the interface has the correct properties
     assert isinstance(interface, gr.Blocks)
