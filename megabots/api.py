@@ -1,14 +1,19 @@
 import os
 from megabots import bot
-from lcserve import serving
+from megabots.utils import create_api
+
+# from lcserve import serving
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 index_dir = os.path.join(cur_dir, "..", "examples", "files")
 
-print("hey")
+
+mybot = bot("qna-over-docs", index="./index.pkl")
 
 
-@serving
-def ask(question: str) -> str:
-    mybot = bot("qna-over-docs", index=index_dir)
-    return mybot.ask(question)
+# @serving
+# def ask(question: str) -> str:
+#     return mybot.ask(question)
+
+
+app = create_api(mybot)
