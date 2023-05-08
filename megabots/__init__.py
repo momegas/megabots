@@ -1,8 +1,8 @@
-from megabots.vectorstore import VectorStore, vectorstore
-from megabots.memory import Memory, memory
-from megabots.bot import Bot, bot
-from megabots.prompt import prompt
-from megabots.utils import create_api, create_interface
+from megabots.bots.vectorstore import VectorStore, vectorstore
+from megabots.bots.memory import Memory, memory
+from megabots.bots.bot import Bot, bot
+from megabots.bots.prompt import prompt
+from megabots.bots.utils import create_api, create_interface
 
 
 from dotenv import load_dotenv

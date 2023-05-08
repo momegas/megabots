@@ -10,9 +10,9 @@ from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chains.conversational_retrieval.prompts import QA_PROMPT
 from langchain.document_loaders import DirectoryLoader
-from megabots.prompt import QA_MEMORY_PROMPT
-from megabots.vectorstore import VectorStore
-from megabots.memory import Memory
+from megabots.bots.prompt import QA_MEMORY_PROMPT
+from megabots.bots.vectorstore import VectorStore
+from megabots.bots.memory import Memory
 import megabots
 
 

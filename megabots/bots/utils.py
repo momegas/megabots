@@ -1,6 +1,6 @@
 import gradio as gr
 from fastapi import FastAPI
-from megabots.bot import Bot
+from megabots.bots.bot import Bot
 from fastapi.openapi.utils import get_openapi
 from pydantic import BaseModel
 
