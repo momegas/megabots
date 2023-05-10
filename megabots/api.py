@@ -1,22 +1,26 @@
 import os
-from megabots.bots.model import AddText, Index, SupportedEmbeddings
+from megabots.model import AddText, Bot, Index, SupportedEmbeddings
 from megabots.bots.utils import _custom_openapi
 from fastapi import FastAPI
 from langchain.vectorstores.pgvector import PGVector
 from langchain.embeddings.openai import OpenAIEmbeddings
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from langchain.vectorstores import Qdrant
-
+from langchain.chains.question_answering import load_qa_chain
+from langchain.chat_models import ChatOpenAI
+from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 index_dir = os.path.join(cur_dir, "..", "examples", "files")
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
-qdrant_url = "http://localhost:6333"
-
 connect_args = {"check_same_thread": False}
 engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
+
+qdrant_url = "http://localhost:6333"
+client = QdrantClient(url=qdrant_url)
 
 
 def create_db_and_tables():
@@ -33,57 +37,62 @@ def on_startup():
 
 @app.post("/v1/index")
 async def create_index(index: Index):
-    with Session(engine) as session:
-        session.add(index)
-        session.commit()
-        session.refresh(index)
-        return index
+    res = client.create_collection(
+        collection_name=index.name,
+        vectors_config=VectorParams(size=index.size or 100, distance=Distance.COSINE),
+    )
+
+    return res
 
 
 @app.get("/v1/indexes/")
 def get_indexes():
-    with Session(engine) as session:
-        indexes = session.exec(select(Index)).all()
-        return indexes
+    return client.get_collections()
 
 
-@app.post("/v1/index/{index_id}/add_text")
-async def add_text(index_id: int, addText: AddText):
-    with Session(engine) as session:
-        index = session.get(Index, index_id)
+@app.post("/v1/index/{index_name}/add_text")
+async def add_text(index_name: str, addText: AddText):
+    index = client.get_collection(index_name)
 
-        if not index:
-            return {"error": "Index not found."}
+    if not index:
+        return {"error": "Index not found."}
 
-        embeddings = None
-        if index.embeddings == SupportedEmbeddings.OPEN_AI:
-            embeddings = OpenAIEmbeddings()
-        else:
-            return {"error": "Embeddings not supported."}
+    embeddings = OpenAIEmbeddings()
 
-        vector_db = Qdrant.from_texts(
-            addText.texts,
-            embeddings,
-            url=qdrant_url,
-            collection_name=index.name,
-        )
+    Qdrant.from_texts(
+        addText.texts,
+        embeddings,
+        url=qdrant_url,
+        collection_name=index_name,
+    )
 
-        return
-
-
-@app.post("/v1/bot")
-async def create_bot():
-    pass
+    return True
 
 
 @app.get(
-    "/v1/bot/{bot_id}/ask/{question}",
+    "/v1/qna/{index_name}/ask/{question}",
     summary="Ask bot",
     description="Send question to the bot.",
     responses={200: {"description": "Bot answer"}},
 )
-async def ask(question: str):
-    pass
+async def ask(index_name: str, question: str):
+    embeddings = OpenAIEmbeddings()
+
+    client = QdrantClient(url=qdrant_url)
+    qdrant = Qdrant(
+        client=client,
+        collection_name=index_name,
+        embedding_function=embeddings.embed_query,
+    )
+
+    docs = qdrant.similarity_search(question, top_k=3)
+
+    llm = ChatOpenAI(temperature=0)
+
+    chain = load_qa_chain(llm, chain_type="stuff")
+    result = chain.run(input_documents=docs, question=question)
+
+    return result
 
 
 app.openapi_schema = _custom_openapi(app, "0.0.0")
