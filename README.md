@@ -20,14 +20,6 @@
 - 🎖️ automatically expose the bot as a rebust API using FastAPI (early release)
 - 🏓 automatically expose the bot as a UI using Gradio
 
-**Coming soon:**
-
-- 🗣️ accept voice as an input using [whisper](https://github.com/openai/whisper)
-- 👍 validate and correct the outputs of LLMs using [guardrails](https://github.com/ShreyaR/guardrails)
-- 💰 semanticly cache LLM Queries and reduce Costs by 10x using [GPTCache](https://github.com/zilliztech/GPTCache)
-- 🏋️ mega-easy LLM training
-- 🚀 mega-easy deployment
-
 🤖 Megabots is backed by some of the most famous tools for productionalising AI. It uses [LangChain](https://docs.langchain.com/docs/) for managing LLM chains, [langchain-serve](https://github.com/jina-ai/langchain-serve) to create a production ready API, [Gradio](https://gradio.app/) to create a UI. At the moment it uses [OpenAI](https://openai.com/) to generate answers, but we plan to support other LLMs in the future.
 
 ## Getting started
